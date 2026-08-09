@@ -13,6 +13,11 @@ const ctx = {
   passThroughOnException() {},
 };
 
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+).replace(/\/+$/, "");
+const escapedSiteUrl = siteUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 async function render(pathname) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -241,14 +246,14 @@ test("renders all 12 localized launch routes with metadata and structured data",
 
       assert.match(
         html,
-        new RegExp(`<link[^>]+rel=["']canonical["'][^>]+href=["']http://localhost:3000${route}["']`, "i"),
+        new RegExp(`<link[^>]+rel=["']canonical["'][^>]+href=["']${escapedSiteUrl}${route}["']`, "i"),
         `${route} renders its canonical URL`,
       );
       const expectedAlternates = [
-        ["en", `http://localhost:3000/en${path}`],
-        ["ja", `http://localhost:3000/ja${path}`],
-        ["de", `http://localhost:3000/de${path}`],
-        ["pt-BR", `http://localhost:3000/pt-br${path}`],
+        ["en", `${siteUrl}/en${path}`],
+        ["ja", `${siteUrl}/ja${path}`],
+        ["de", `${siteUrl}/de${path}`],
+        ["pt-BR", `${siteUrl}/pt-br${path}`],
       ];
       for (const [hreflang, href] of expectedAlternates) {
         assert.match(
@@ -262,12 +267,12 @@ test("renders all 12 localized launch routes with metadata and structured data",
       }
       assert.match(
         html,
-        /<meta[^>]+property=["']og:image["'][^>]+content=["']http:\/\/localhost:3000\/og\.png["']/i,
+        new RegExp(`<meta[^>]+property=["']og:image["'][^>]+content=["']${escapedSiteUrl}/og\\.png["']`, "i"),
         `${route} renders the OpenGraph preview`,
       );
       assert.match(
         html,
-        /<meta[^>]+name=["']twitter:image["'][^>]+content=["']http:\/\/localhost:3000\/og\.png["']/i,
+        new RegExp(`<meta[^>]+name=["']twitter:image["'][^>]+content=["']${escapedSiteUrl}/og\\.png["']`, "i"),
         `${route} renders the Twitter preview`,
       );
       assert.match(
@@ -317,7 +322,7 @@ test("serves a sitemap containing exactly the 12 launch URLs", async () => {
   assert.equal((xml.match(/<url>/g) ?? []).length, 12);
   for (const locale of ["en", "ja", "de", "pt-br"]) {
     for (const path of ["", "/classes", "/classes/best-class"]) {
-      assert.match(xml, new RegExp(`<loc>http://localhost:3000/${locale}${path}</loc>`));
+      assert.match(xml, new RegExp(`<loc>${escapedSiteUrl}/${locale}${path}</loc>`));
     }
   }
 });
@@ -329,7 +334,7 @@ test("allows crawling and advertises the sitemap", async () => {
 
   assert.match(robots, /User-Agent:\s*\*/i);
   assert.match(robots, /Allow:\s*\//i);
-  assert.match(robots, /Sitemap:\s*http:\/\/localhost:3000\/sitemap\.xml/i);
+  assert.match(robots, new RegExp(`Sitemap:\\s*${escapedSiteUrl}/sitemap\\.xml`, "i"));
 });
 
 test("keeps competitor brands and guide domains out of all launch HTML", async () => {
@@ -343,6 +348,7 @@ test("keeps competitor brands and guide domains out of all launch HTML", async (
     /wiki\.gg/i,
   ];
   const allowedExternalHosts = new Set([
+    new URL(siteUrl).hostname,
     "mistfallhunter.com",
     "store.steampowered.com",
     "steamcommunity.com",

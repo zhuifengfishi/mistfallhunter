@@ -18,7 +18,8 @@ npm run build
 
 Canonical URLs use the explicit `NEXT_PUBLIC_SITE_URL` environment variable.
 When it is unset, local development defaults to `http://localhost:3000`; set it
-to the deployed site's public origin for production builds.
+to the deployed site's public origin for production builds. Mistfall V2 uses
+`https://mistfall-hunter-v2-field-guide-20260809.zhuifeng1992.chatgpt.site`.
 
 This starter does not use `wrangler.jsonc`.
 
