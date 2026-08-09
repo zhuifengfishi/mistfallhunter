@@ -77,20 +77,35 @@ test("keeps the approved homepage information hierarchy", async () => {
   assert.ok(primaryCta > snapshot, "primary CTAs follow the stat chips");
 });
 
-test("renders the Classes collection and all six classes", async () => {
-  const response = await render("/en/classes");
-  assert.equal(response.status, 200);
-  const html = await response.text();
-  for (const name of [
-    "Mercenary",
-    "Seer",
-    "Blackarrow",
-    "Shadowstrix",
-    "Blasphemer",
-    "Withered Knight",
-  ]) {
-    assert.match(html, new RegExp(name, "i"));
+test("renders the Classes collection cards, links, and sidebar state for every locale", async () => {
+  for (const locale of ["en", "ja", "de", "pt-br"]) {
+    const response = await render(`/${locale}/classes`);
+    assert.equal(response.status, 200, `/${locale}/classes returns 200`);
+    const html = await response.text();
+
+    assert.equal(
+      (html.match(/role="listitem"/g) ?? []).length,
+      6,
+      `/${locale}/classes renders exactly six class cards`,
+    );
+    assert.match(
+      html,
+      new RegExp(`href=["']/${locale}/classes/best-class["']`),
+      `/${locale}/classes keeps the Best Class link localized`,
+    );
+    assert.match(
+      html,
+      new RegExp(
+        `<section class=["']wiki-sidebar__group is-expanded["'][^>]*>\\s*<a href=["']/${locale}/classes["']`,
+      ),
+      `/${locale}/classes expands the Classes sidebar group`,
+    );
+    assert.match(
+      html,
+      new RegExp(
+        `<a aria-current=["']page["'] class=["']wiki-sidebar__item is-active["'] href=["']/${locale}/classes["']`,
+      ),
+      `/${locale}/classes selects Overview in the sidebar`,
+    );
   }
-  assert.match(html, /Classes Overview/i);
-  assert.match(html, /Best Class/i);
 });

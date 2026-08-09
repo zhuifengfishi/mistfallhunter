@@ -1213,9 +1213,14 @@ summary:focus-visible {
   border-left: 1px solid var(--classes-line);
 }
 
-.classes-page__grid .home-guide-card {
+.classes-page__card {
+  min-width: 0;
   border-right: 1px solid var(--classes-line);
   border-bottom: 1px solid var(--classes-line);
+}
+
+.classes-page__card .home-guide-card {
+  height: 100%;
 }
 
 .classes-page__grid .home-guide-card__link {

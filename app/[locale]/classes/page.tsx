@@ -58,20 +58,25 @@ export default async function ClassesCollection({
           </div>
           <p>{content.gridIntro}</p>
         </div>
-        <div className="classes-page__grid">
+        <div
+          aria-label={content.overview}
+          className="classes-page__grid"
+          role="list"
+        >
           {classes.map((classEntry, index) => {
             const entry = content.entries[classEntry.id];
             return (
-              <GuideCard
-                description={`${entry.description} ${entry.weapon} / ${entry.role}`}
-                eyebrow={entry.role}
-                href={`${localizedPath(locale, "/classes")}#${classEntry.id}`}
-                id={classEntry.id}
-                index={index + 1}
-                key={classEntry.id}
-                linkLabel={content.cardLinkLabel}
-                title={entry.name}
-              />
+              <div className="classes-page__card" key={classEntry.id} role="listitem">
+                <GuideCard
+                  description={`${entry.description} ${entry.weapon} / ${entry.role}`}
+                  eyebrow={entry.role}
+                  href={`${localizedPath(locale, "/classes")}#${classEntry.id}`}
+                  id={classEntry.id}
+                  index={index + 1}
+                  linkLabel={content.cardLinkLabel}
+                  title={entry.name}
+                />
+              </div>
             );
           })}
         </div>
