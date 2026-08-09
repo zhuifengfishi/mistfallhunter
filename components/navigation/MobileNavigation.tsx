@@ -49,27 +49,50 @@ export function MobileNavigation({
       </summary>
       <div className="mobile-navigation__drawer">
         <nav aria-label={dictionary.nav.wikiNavigation}>
-          {navigationGroups.map((group) => (
-            <section className="mobile-navigation__group" key={group.id}>
-              <a href={resolveNavigationHref(locale, group.id)}>
+          {navigationGroups.map((group) => {
+            const groupHref = resolveNavigationHref(locale, group.id);
+            const groupContent = (
+              <>
                 {groupLabel(dictionary, group.id)}
                 {group.count > 0 ? <span>{group.count}</span> : null}
-              </a>
-              {group.items.map((item) => {
-                const href = resolveNavigationItemHref(locale, group.id, item);
-                const current = pathname === href;
-                return (
-                  <a
-                    aria-current={current ? "page" : undefined}
-                    href={href}
-                    key={item}
+              </>
+            );
+            return (
+              <section className="mobile-navigation__group" key={group.id}>
+                {groupHref ? (
+                  <a href={groupHref}>{groupContent}</a>
+                ) : (
+                  <span
+                    aria-disabled="true"
+                    className="mobile-navigation__group-label"
                   >
-                    {itemLabel(dictionary, item)}
-                  </a>
-                );
-              })}
-            </section>
-          ))}
+                    {groupContent}
+                  </span>
+                )}
+                {group.items.map((item) => {
+                  const href = resolveNavigationItemHref(locale, group.id, item);
+                  const current = pathname === href;
+                  return href ? (
+                    <a
+                      aria-current={current ? "page" : undefined}
+                      href={href}
+                      key={item}
+                    >
+                      {itemLabel(dictionary, item)}
+                    </a>
+                  ) : (
+                    <span
+                      aria-disabled="true"
+                      className="mobile-navigation__item-label"
+                      key={item}
+                    >
+                      {itemLabel(dictionary, item)}
+                    </span>
+                  );
+                })}
+              </section>
+            );
+          })}
         </nav>
         <LocaleSwitcher dictionary={dictionary} locale={locale} />
       </div>

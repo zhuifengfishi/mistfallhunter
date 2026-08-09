@@ -148,6 +148,30 @@ test("renders the English homepage shell and sections", async () => {
   assert.doesNotMatch(html, /VV:? ULTIMATUM/i);
 });
 
+test("renders future navigation groups as labels and links only real destinations", async () => {
+  const response = await render("/en");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+
+  assert.ok(
+    (html.match(/>Systems</g) ?? []).length >= 2,
+    "desktop and mobile navigation both show Systems",
+  );
+  assert.doesNotMatch(html, /href=["']\/en#systems["']/);
+
+  for (const [href, anchor] of [
+    ["/en#start-here", "start-here"],
+    ["/en#builds", "builds"],
+    ["/en#ciphers", "ciphers"],
+    ["/en#maps", "maps"],
+    ["/en#updates", "updates"],
+  ]) {
+    assert.match(html, new RegExp(`href=["']${href}["']`));
+    assert.match(html, new RegExp(`id=["']${anchor}["']`));
+  }
+  assert.match(html, /href=["']\/en\/classes["']/);
+});
+
 test("keeps the approved homepage information hierarchy", async () => {
   const response = await render("/en");
   assert.equal(response.status, 200);
@@ -336,14 +360,40 @@ test("preserves the unsupported /zh response as a safe 404", async () => {
   assert.match(html, /href=["']\/en["']/);
 });
 
-test("renders the localized not-found page for an unknown article", async () => {
-  const response = await render("/en/classes/not-a-guide");
-  assert.equal(response.status, 404);
-  const html = await response.text();
+test("renders locale-specific not-found pages for unknown articles", async () => {
+  const cases = [
+    { locale: "en", title: "Page not found", returnHome: "Return to the wiki home" },
+    { locale: "ja", title: "ページが見つかりません", returnHome: "Wiki ホームへ戻る" },
+    {
+      locale: "de",
+      title: "Seite nicht gefunden",
+      returnHome: "Zurück zur Wiki-Startseite",
+    },
+    {
+      locale: "pt-br",
+      title: "Página não encontrada",
+      returnHome: "Voltar à página inicial da Wiki",
+    },
+  ];
 
-  assert.match(html, /class=["']home-closing["']/);
-  assert.match(html, /href=["']\/en["']/);
-  assert.doesNotMatch(html, /data-not-found-scope=["']global["']/);
+  for (const { locale, title, returnHome } of cases) {
+    const response = await render(`/${locale}/classes/not-a-guide`);
+    assert.equal(response.status, 404, `${locale} unknown article returns 404`);
+    const html = await response.text();
+    const visibleBoundary = html.match(
+      /<section class=["']home-closing["'][^>]*>[\s\S]*?<\/section>/,
+    )?.[0];
+
+    assert.ok(visibleBoundary, `${locale} renders the localized not-found boundary`);
+    assert.match(visibleBoundary, new RegExp(`<h1>${title}</h1>`));
+    assert.match(visibleBoundary, new RegExp(`href=["']/${locale}["']`));
+    assert.match(visibleBoundary, new RegExp(returnHome));
+    assert.match(
+      html,
+      new RegExp(`<html[^>]+lang=["']${locale === "pt-br" ? "pt-BR" : locale}["']`, "i"),
+    );
+    assert.doesNotMatch(html, /data-not-found-scope=["']global["']/);
+  }
 });
 
 test("serves a sitemap containing exactly the 12 launch URLs", async () => {

@@ -17,7 +17,7 @@ type SiteHeaderProps = {
 };
 
 const primaryNavigation = navigationGroups.filter(
-  (group) => group.id !== "getting-started" && group.id !== "systems",
+  (group) => group.primary && group.destination !== null,
 );
 
 function labelFor(dictionary: Dictionary, id: NavigationGroupId): string {
@@ -49,6 +49,7 @@ export function SiteHeader({ dictionary, locale }: SiteHeaderProps) {
         <nav className="site-header__nav" aria-label="Primary navigation">
           {primaryNavigation.map((group) => {
             const href = resolveNavigationHref(locale, group.id);
+            if (!href) return null;
             const current = group.id === "classes" && pathname.startsWith(href);
             return (
               <a aria-current={current ? "page" : undefined} href={href} key={group.id}>

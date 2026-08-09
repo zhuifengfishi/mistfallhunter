@@ -1,3 +1,4 @@
+import { officialLinks } from "../data/official-links";
 import type { Dictionary } from "../i18n/get-dictionary";
 
 type SiteFooterProps = {
@@ -11,11 +12,11 @@ export function SiteFooter({ dictionary }: SiteFooterProps) {
       <div className="site-footer__meta">
         <span>© {new Date().getFullYear()} {dictionary.footer.copyright}</span>
         <span className="site-footer__links">
-          <a href="https://mistfallhunter.com/" rel="noreferrer" target="_blank">
+          <a href={officialLinks.site} rel="noreferrer" target="_blank">
             {dictionary.footer.officialSite}
           </a>
           <a
-            href="https://store.steampowered.com/app/3282300/"
+            href={officialLinks.steam}
             rel="noreferrer"
             target="_blank"
           >

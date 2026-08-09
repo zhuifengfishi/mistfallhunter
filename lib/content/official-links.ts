@@ -1,18 +1,13 @@
-import { officialLinks } from "../../data/home";
+import {
+  officialLinks,
+  type ApprovedOfficialSourceUrl,
+} from "../../data/official-links";
 
-export const approvedOfficialSourceUrls = [
-  officialLinks.site,
-  officialLinks.steam,
-  officialLinks.steamNews,
-] as const;
-
-export type ApprovedOfficialSourceUrl = (typeof approvedOfficialSourceUrls)[number];
-
-export function isApprovedOfficialSourceUrl(
-  source: string,
-): source is ApprovedOfficialSourceUrl {
-  return approvedOfficialSourceUrls.includes(source as ApprovedOfficialSourceUrl);
-}
+export {
+  approvedOfficialSourceUrls,
+  isApprovedOfficialSourceUrl,
+} from "../../data/official-links";
+export type { ApprovedOfficialSourceUrl } from "../../data/official-links";
 
 export function officialSourceLabel(source: ApprovedOfficialSourceUrl): string {
   if (source === officialLinks.site) return "Mistfall Hunter";

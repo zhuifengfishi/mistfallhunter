@@ -81,12 +81,6 @@ type HomeContent = {
   };
 };
 
-export const officialLinks = {
-  site: "https://mistfallhunter.com/",
-  steam: "https://store.steampowered.com/app/3282300/",
-  steamNews: "https://steamcommunity.com/app/3282300/allnews/",
-} as const;
-
 export const homeContent: Record<Locale, HomeContent> = {
   en: {
     breadcrumb: "Home",

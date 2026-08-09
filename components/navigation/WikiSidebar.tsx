@@ -44,31 +44,58 @@ export function WikiSidebar({ dictionary, locale }: WikiSidebarProps) {
       <nav>
         {navigationGroups.map((group) => {
           const groupHref = resolveNavigationHref(locale, group.id);
-          const expanded = group.id === "classes" && pathname.startsWith(groupHref);
+          const expanded =
+            group.id === "classes" &&
+            groupHref !== null &&
+            pathname.startsWith(groupHref);
+          const groupContent = (
+            <>
+              <span>{groupLabel(dictionary, group.id)}</span>
+              {group.count > 0 ? (
+                <span className="wiki-sidebar__count">{group.count}</span>
+              ) : null}
+            </>
+          );
           return (
             <section
               className={expanded ? "wiki-sidebar__group is-expanded" : "wiki-sidebar__group"}
               key={group.id}
             >
-              <a href={groupHref}>
-                <span>{groupLabel(dictionary, group.id)}</span>
-                {group.count > 0 ? <span className="wiki-sidebar__count">{group.count}</span> : null}
-              </a>
+              {groupHref ? (
+                <a href={groupHref}>{groupContent}</a>
+              ) : (
+                <span aria-disabled="true" className="wiki-sidebar__group-label">
+                  {groupContent}
+                </span>
+              )}
               {group.items.map((item) => {
                 const href = resolveNavigationItemHref(locale, group.id, item);
                 const current = pathname === href;
-                return (
+                const content = (
+                  <>
+                    <span>{itemLabel(dictionary, item)}</span>
+                    {item === "best-class" ? (
+                      <span className="wiki-sidebar__badge">{dictionary.article.popular}</span>
+                    ) : null}
+                  </>
+                );
+                return href ? (
                   <a
                     aria-current={current ? "page" : undefined}
                     className={current ? "wiki-sidebar__item is-active" : "wiki-sidebar__item"}
                     href={href}
                     key={item}
                   >
-                    <span>{itemLabel(dictionary, item)}</span>
-                    {item === "best-class" ? (
-                      <span className="wiki-sidebar__badge">{dictionary.article.popular}</span>
-                    ) : null}
+                    {content}
                   </a>
+                ) : (
+                  <span
+                    aria-disabled="true"
+                    className="wiki-sidebar__item-label"
+                    key={item}
+                  >
+                    {content}
+                  </span>
                 );
               })}
             </section>

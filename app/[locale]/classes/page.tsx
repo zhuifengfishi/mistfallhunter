@@ -4,7 +4,7 @@ import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { GuideCard } from "../../../components/GuideCard";
 import { MediaPanel } from "../../../components/MediaPanel";
 import { classes } from "../../../data/classes";
-import { officialLinks } from "../../../data/home";
+import { officialLinks } from "../../../data/official-links";
 import { getDictionary } from "../../../i18n/get-dictionary";
 import { isLocale, localizedPath } from "../../../i18n/locales";
 import {

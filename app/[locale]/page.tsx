@@ -6,9 +6,9 @@ import { MediaPanel } from "../../components/MediaPanel";
 import { StatChip } from "../../components/StatChip";
 import {
   homeContent,
-  officialLinks,
   type HomeTarget,
 } from "../../data/home";
+import { officialLinks } from "../../data/official-links";
 import { getDictionary } from "../../i18n/get-dictionary";
 import { isLocale, localizedPath, type Locale } from "../../i18n/locales";
 import {

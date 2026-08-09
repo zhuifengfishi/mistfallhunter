@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { getArticle } from "../content/registry";
+import {
+  approvedOfficialSourceUrls,
+  isApprovedOfficialSourceUrl,
+  officialLinks,
+} from "../data/official-links";
 import { parseArticle } from "../lib/content/parse-article";
 
 const valid = `---
@@ -17,6 +22,12 @@ sources:
 `;
 
 describe("MDX content pipeline", () => {
+  it("keeps every shared official link inside the approved source policy", () => {
+    expect(Object.values(officialLinks)).toEqual(approvedOfficialSourceUrls);
+    expect(Object.values(officialLinks).every(isApprovedOfficialSourceUrl)).toBe(true);
+    expect(isApprovedOfficialSourceUrl("https://competitor.example/guide")).toBe(false);
+  });
+
   it("parses required frontmatter and body", () => {
     const article = parseArticle(valid, "fixture.mdx");
     expect(article.frontmatter.category).toBe("classes");
