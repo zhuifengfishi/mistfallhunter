@@ -109,3 +109,47 @@ test("renders the Classes collection cards, links, and sidebar state for every l
     );
   }
 });
+
+test("renders the English Best Class MDX article", async () => {
+  const response = await render("/en/classes/best-class");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+
+  assert.match(html, /Best Class to Choose|Best Class/i);
+  assert.match(html, /Quick Recommendation/i);
+  assert.match(html, /Last updated/i);
+  assert.match(html, /Popular/i);
+  assert.match(html, /Advertisement/i);
+  const activeBestClassLink =
+    /<a aria-current=["']page["'] class=["']wiki-sidebar__item is-active["'] href=["']\/en\/classes\/best-class["']/;
+  assert.match(html, activeBestClassLink);
+});
+
+test("renders the localized Best Class article route and sidebar state for every locale", async () => {
+  for (const locale of ["en", "ja", "de", "pt-br"]) {
+    const response = await render(`/${locale}/classes/best-class`);
+    assert.equal(response.status, 200, `/${locale}/classes/best-class returns 200`);
+    const html = await response.text();
+
+    assert.match(html, /Mistfall Hunter/i, `${locale} renders article content`);
+    assert.match(
+      html,
+      new RegExp(
+        `<section class=["']wiki-sidebar__group is-expanded["'][^>]*>\\s*<a href=["']/${locale}/classes["']`,
+      ),
+      `${locale} expands the Classes sidebar group`,
+    );
+    assert.match(
+      html,
+      new RegExp(
+        `<a aria-current=["']page["'] class=["']wiki-sidebar__item is-active["'] href=["']/${locale}/classes/best-class["']`,
+      ),
+      `${locale} selects Best Class in the sidebar`,
+    );
+  }
+});
+
+test("returns 404 for an unknown article slug", async () => {
+  const response = await render("/en/classes/not-a-guide");
+  assert.equal(response.status, 404);
+});
