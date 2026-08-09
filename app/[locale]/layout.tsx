@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { GoogleAnalytics } from "../../components/GoogleAnalytics";
 import { SiteFooter } from "../../components/SiteFooter";
 import { SiteHeader } from "../../components/navigation/SiteHeader";
 import { WikiSidebar } from "../../components/navigation/WikiSidebar";
@@ -40,6 +41,9 @@ export default async function LocalizedLayout({
 
   return (
     <html lang={documentLanguages[locale]}>
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body>
         <div className="site-shell">
           <SiteHeader dictionary={dictionary} locale={locale} />

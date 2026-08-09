@@ -343,6 +343,48 @@ test("renders all 12 localized launch routes with metadata and structured data",
   }
 });
 
+test("loads Google Analytics exactly once across every rendered site page", async () => {
+  const launchRoutes = ["en", "ja", "de", "pt-br"].flatMap((locale) => [
+    `/${locale}`,
+    `/${locale}/classes`,
+    `/${locale}/classes/best-class`,
+  ]);
+  const renderedRoutes = [...launchRoutes, "/__global-not-found__/missing"];
+  const loader = "https://www.googletagmanager.com/gtag/js?id=G-H07TTQ3KK1";
+
+  for (const route of renderedRoutes) {
+    const response = await render(route);
+    assert.ok([200, 404].includes(response.status), `${route} renders a site page`);
+    const html = await response.text();
+    const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+    const loaderScripts = scripts.filter(([, attributes]) =>
+      new RegExp(`\\bsrc=["']${loader.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`, "i")
+        .test(attributes),
+    );
+    const bootstrapScripts = scripts.filter(([, , content]) =>
+      /^\s*window\.dataLayer\s*=/.test(content),
+    );
+
+    assert.equal(
+      loaderScripts.length,
+      1,
+      `${route} loads the GA4 library exactly once`,
+    );
+    assert.equal(
+      bootstrapScripts.length,
+      1,
+      `${route} renders the GA4 bootstrap exactly once`,
+    );
+    assert.match(
+      bootstrapScripts[0][2],
+      /gtag\(\s*["']config["']\s*,\s*["']G-H07TTQ3KK1["']\s*\)/,
+      `${route} configures the requested GA4 measurement ID`,
+    );
+    assert.match(bootstrapScripts[0][2], /window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/);
+    assert.match(bootstrapScripts[0][2], /dataLayer\.push\(arguments\)/);
+  }
+});
+
 test("renders the global not-found page for a genuinely unmatched URL", async () => {
   const response = await render("/__global-not-found__/missing");
   assert.equal(response.status, 404);
