@@ -43,6 +43,25 @@ export const de = {
     intro: "Vergleiche alle sechs Klassen und finde eine Rolle für deine nächste Jagd.",
     bestClass: "Beste Klasse",
     rankingNotice: "Empfehlungen können sich mit Balance-Updates ändern.",
+    bannerAlt: "Mistfall-Hunter-Jäger kämpfen auf einem zerstörten Schlachtfeld",
+    snapshotLabel: "Balance-Stand zum Launch",
+    gridIntro:
+      "Beginne mit Waffe und Rolle jeder Klasse und passe deine Wahl an, wenn sich die offizielle Balance ändert.",
+    cardLinkLabel: "In dieser Übersicht ansehen",
+    bestClassIntro:
+      "Zum Launch gibt es keinen allgemeinen Sieger. Der Guide zur besten Klasse hilft dir, Tempo, Teamrolle und Risikobereitschaft abzuwägen.",
+    bestClassLinkLabel: "Guide zur besten Klasse lesen",
+    relatedTitle: "Plane die nächste Jagd weiter.",
+    homeLinkLabel: "Zurück zur Wiki-Startseite",
+    officialLinkLabel: "Mistfall Hunter auf Steam ansehen",
+    entries: {
+      mercenary: { name: "Söldner", description: "Ein Speerkämpfer mit Schild, der Positionen hält.", weapon: "Speer und Schild", role: "Frontlinie" },
+      seer: { name: "Seher", description: "Ein mystischer Spezialist für Unterstützung aus der Distanz.", weapon: "Mystischer Fokus", role: "Fernunterstützung" },
+      blackarrow: { name: "Schwarzpfeil", description: "Ein Bogennutzer, der Positionierung in Präzision verwandelt.", weapon: "Bogen", role: "Präzision" },
+      shadowstrix: { name: "Schattenstrix", description: "Ein Doppelklingen-Jäger für schnelle Gefechte.", weapon: "Doppelklingen", role: "Assassine" },
+      blasphemer: { name: "Blasphemiker", description: "Ein Nahkampf-Bruiser mit schwerer Waffe und hohem Druck.", weapon: "Schwere Waffe", role: "Bruiser" },
+      "withered-knight": { name: "Verdorrter Ritter", description: "Ein Großwaffen-Spezialist mit robuster Nahkampfpräsenz.", weapon: "Große Waffe", role: "Robuster Nahkampf" },
+    },
   },
   article: {
     updated: "Zuletzt aktualisiert",

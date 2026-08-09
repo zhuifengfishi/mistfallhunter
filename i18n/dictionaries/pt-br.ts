@@ -43,6 +43,25 @@ export const ptBr = {
     intro: "Compare todas as seis classes e encontre um papel para sua próxima caçada.",
     bestClass: "Melhor classe",
     rankingNotice: "As recomendações podem mudar com atualizações de balanceamento.",
+    bannerAlt: "Caçadores de Mistfall Hunter lutando em um campo de batalha em ruínas",
+    snapshotLabel: "Panorama de balanceamento do lançamento",
+    gridIntro:
+      "Comece pela arma e pelo papel de cada classe, e ajuste sua escolha quando o balanceamento oficial mudar.",
+    cardLinkLabel: "Ver nesta visão geral",
+    bestClassIntro:
+      "Não existe vencedora universal no lançamento. Use o guia de Melhor classe para avaliar ritmo, papel no time e tolerância ao risco.",
+    bestClassLinkLabel: "Ler o guia de Melhor classe",
+    relatedTitle: "Continue planejando a próxima caçada.",
+    homeLinkLabel: "Voltar ao início da Wiki",
+    officialLinkLabel: "Ver Mistfall Hunter na Steam",
+    entries: {
+      mercenary: { name: "Mercenário", description: "Um combatente de lança e escudo feito para segurar terreno.", weapon: "Lança e escudo", role: "Linha de frente" },
+      seer: { name: "Vidente", description: "Um especialista místico que apoia a distância.", weapon: "Foco místico", role: "Suporte a distância" },
+      blackarrow: { name: "Flecha Negra", description: "Um usuário de arco que transforma posicionamento em precisão.", weapon: "Arco", role: "Precisão" },
+      shadowstrix: { name: "Estrige Sombria", description: "Uma caçadora de lâminas duplas para confrontos rápidos.", weapon: "Lâminas duplas", role: "Assassina" },
+      blasphemer: { name: "Blasfemador", description: "Um brutamontes de arma pesada para pressão de curto alcance.", weapon: "Arma pesada", role: "Brutamontes" },
+      "withered-knight": { name: "Cavaleiro Definhado", description: "Um especialista em arma grande com presença resistente no corpo a corpo.", weapon: "Arma grande", role: "Corpo a corpo resistente" },
+    },
   },
   article: {
     updated: "Última atualização",

@@ -76,3 +76,21 @@ test("keeps the approved homepage information hierarchy", async () => {
   assert.ok(snapshot > valueProposition, "stat chips follow the value proposition");
   assert.ok(primaryCta > snapshot, "primary CTAs follow the stat chips");
 });
+
+test("renders the Classes collection and all six classes", async () => {
+  const response = await render("/en/classes");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  for (const name of [
+    "Mercenary",
+    "Seer",
+    "Blackarrow",
+    "Shadowstrix",
+    "Blasphemer",
+    "Withered Knight",
+  ]) {
+    assert.match(html, new RegExp(name, "i"));
+  }
+  assert.match(html, /Classes Overview/i);
+  assert.match(html, /Best Class/i);
+});

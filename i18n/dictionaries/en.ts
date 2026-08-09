@@ -42,6 +42,25 @@ export const en = {
     intro: "Compare all six classes and find a role that fits your next hunt.",
     bestClass: "Best Class",
     rankingNotice: "Recommendations can change with balance updates.",
+    bannerAlt: "Mistfall Hunter hunters fighting through a ruined battlefield",
+    snapshotLabel: "Launch balance snapshot",
+    gridIntro:
+      "Start with the weapon and role each class brings to a hunt, then adjust when the official balance changes.",
+    cardLinkLabel: "View in this overview",
+    bestClassIntro:
+      "There is no universal winner at launch. Use the Best Class guide to weigh your preferred pace, team role, and risk tolerance.",
+    bestClassLinkLabel: "Read the Best Class guide",
+    relatedTitle: "Keep planning the next hunt.",
+    homeLinkLabel: "Return to the wiki home",
+    officialLinkLabel: "View Mistfall Hunter on Steam",
+    entries: {
+      mercenary: { name: "Mercenary", description: "A shielded spear fighter built to hold ground.", weapon: "Spear and shield", role: "Frontline" },
+      seer: { name: "Seer", description: "A mystic specialist who supports from range.", weapon: "Mystic focus", role: "Ranged support" },
+      blackarrow: { name: "Blackarrow", description: "A bow user who turns positioning into precision.", weapon: "Bow", role: "Precision" },
+      shadowstrix: { name: "Shadowstrix", description: "A dual-blade hunter that thrives on quick engagements.", weapon: "Dual blades", role: "Assassin" },
+      blasphemer: { name: "Blasphemer", description: "A heavy-weapon bruiser for forceful close-range pressure.", weapon: "Heavy weapon", role: "Bruiser" },
+      "withered-knight": { name: "Withered Knight", description: "A great-weapon specialist with durable melee presence.", weapon: "Great weapon", role: "Durable melee" },
+    },
   },
   article: {
     updated: "Last updated",

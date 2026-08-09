@@ -43,6 +43,25 @@ export const ja = {
     intro: "6つのクラスを比較し、次の狩りに合う役割を見つけましょう。",
     bestClass: "最強クラス",
     rankingNotice: "おすすめはバランス調整によって変わる場合があります。",
+    bannerAlt: "廃墟となった戦場で戦う Mistfall Hunter のハンターたち",
+    snapshotLabel: "ローンチ時点のバランス情報",
+    gridIntro:
+      "各クラスの武器と役割を出発点にし、公式バランスの変更に合わせて選択を見直しましょう。",
+    cardLinkLabel: "この概要で確認",
+    bestClassIntro:
+      "ローンチ時点で万能な最強クラスはありません。最強クラスガイドで、好みのテンポ、チームでの役割、許容できるリスクを比べましょう。",
+    bestClassLinkLabel: "最強クラスガイドを読む",
+    relatedTitle: "次の狩りの準備を続けましょう。",
+    homeLinkLabel: "Wiki ホームに戻る",
+    officialLinkLabel: "Steam で Mistfall Hunter を見る",
+    entries: {
+      mercenary: { name: "傭兵", description: "地面を守るための盾と槍の戦士。", weapon: "槍と盾", role: "前線" },
+      seer: { name: "予見者", description: "遠距離から支援する神秘の専門家。", weapon: "神秘のフォーカス", role: "遠距離支援" },
+      blackarrow: { name: "ブラックアロー", description: "位置取りを精度へ変える弓使い。", weapon: "弓", role: "精密" },
+      shadowstrix: { name: "シャドウストリクス", description: "素早い交戦を得意とする二刀のハンター。", weapon: "二刀", role: "アサシン" },
+      blasphemer: { name: "ブラスフェマー", description: "重い武器で近距離の圧力をかけるブルーザー。", weapon: "重武器", role: "ブルーザー" },
+      "withered-knight": { name: "枯れた騎士", description: "耐久力のある近接戦を担う大武器の専門家。", weapon: "大武器", role: "耐久近接" },
+    },
   },
   article: {
     updated: "最終更新",
