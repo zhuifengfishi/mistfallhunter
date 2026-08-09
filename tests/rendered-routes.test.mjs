@@ -204,11 +204,20 @@ test("renders all 12 localized launch routes with metadata and structured data",
         new RegExp(`<link[^>]+rel=["']canonical["'][^>]+href=["']http://localhost:3000${route}["']`, "i"),
         `${route} renders its canonical URL`,
       );
-      for (const hreflang of ["en", "ja", "de", "pt-BR"]) {
+      const expectedAlternates = [
+        ["en", `http://localhost:3000/en${path}`],
+        ["ja", `http://localhost:3000/ja${path}`],
+        ["de", `http://localhost:3000/de${path}`],
+        ["pt-BR", `http://localhost:3000/pt-br${path}`],
+      ];
+      for (const [hreflang, href] of expectedAlternates) {
         assert.match(
           html,
-          new RegExp(`<link[^>]+hreflang=["']${hreflang}["']`, "i"),
-          `${route} renders the ${hreflang} alternate`,
+          new RegExp(
+            `<link[^>]+rel=["']alternate["'][^>]+href=["']${href}["'][^>]+hreflang=["']${hreflang}["']`,
+            "i",
+          ),
+          `${route} maps ${hreflang} to ${href}`,
         );
       }
       assert.match(
@@ -233,13 +242,31 @@ test("renders all 12 localized launch routes with metadata and structured data",
   }
 });
 
-test("returns a safe home link from global and localized not-found pages", async () => {
-  for (const path of ["/zh", "/en/classes/not-a-guide"]) {
-    const response = await render(path);
-    assert.equal(response.status, 404, `${path} returns 404`);
-    const html = await response.text();
-    assert.match(html, /href=["']\/en["']/, `${path} links safely to English home`);
-  }
+test("renders the global not-found page for a genuinely unmatched URL", async () => {
+  const response = await render("/__global-not-found__/missing");
+  assert.equal(response.status, 404);
+  const html = await response.text();
+
+  assert.match(html, /data-not-found-scope=["']global["']/);
+  assert.match(html, /href=["']\/en["']/);
+});
+
+test("preserves the unsupported /zh response as a safe 404", async () => {
+  const response = await render("/zh");
+  assert.equal(response.status, 404);
+  const html = await response.text();
+
+  assert.match(html, /href=["']\/en["']/);
+});
+
+test("renders the localized not-found page for an unknown article", async () => {
+  const response = await render("/en/classes/not-a-guide");
+  assert.equal(response.status, 404);
+  const html = await response.text();
+
+  assert.match(html, /class=["']home-closing["']/);
+  assert.match(html, /href=["']\/en["']/);
+  assert.doesNotMatch(html, /data-not-found-scope=["']global["']/);
 });
 
 test("serves a sitemap containing exactly the 12 launch URLs", async () => {

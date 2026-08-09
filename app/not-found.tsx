@@ -3,6 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main
+      data-not-found-scope="global"
       style={{
         alignItems: "center",
         background: "#090a0a",
