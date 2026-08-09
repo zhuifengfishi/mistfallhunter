@@ -16,6 +16,10 @@ npm run dev
 npm run build
 ```
 
+Canonical URLs use the explicit `NEXT_PUBLIC_SITE_URL` environment variable.
+When it is unset, local development defaults to `http://localhost:3000`; set it
+to the deployed site's public origin for production builds.
+
 This starter does not use `wrangler.jsonc`.
 
 ## Included Shape

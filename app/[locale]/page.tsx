@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { GuideCard } from "../../components/GuideCard";
@@ -8,11 +9,35 @@ import {
   officialLinks,
   type HomeTarget,
 } from "../../data/home";
+import { getDictionary } from "../../i18n/get-dictionary";
 import { isLocale, localizedPath, type Locale } from "../../i18n/locales";
+import {
+  buildPageMetadata,
+  pageDescriptions,
+  serializeJsonLd,
+  SITE_URL,
+} from "../../lib/seo/metadata";
 
 type LocalizedHomeProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: LocalizedHomeProps): Promise<Metadata> {
+  const { locale: localeValue } = await params;
+  if (!isLocale(localeValue)) notFound();
+
+  const dictionary = getDictionary(localeValue);
+  return buildPageMetadata({
+    locale: localeValue,
+    path: "/",
+    title: `${dictionary.brand.name} ${dictionary.brand.wiki}`,
+    description: pageDescriptions[localeValue].home,
+    image: "/og.png",
+    imageAlt: "Mistfall Hunter field guide social preview",
+  });
+}
 
 function resolveHomeTarget(locale: Locale, target: HomeTarget): string {
   if (target === "classes") return localizedPath(locale, "/classes");
@@ -35,9 +60,23 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
 
   const locale = localeValue;
   const content = homeContent[locale];
+  const dictionary = getDictionary(locale);
+  const homeUrl = new URL(localizedPath(locale), `${SITE_URL}/`).toString();
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: `${dictionary.brand.name} ${dictionary.brand.wiki}`,
+    description: pageDescriptions[locale].home,
+    url: homeUrl,
+    inLanguage: locale === "pt-br" ? "pt-BR" : locale,
+  };
 
   return (
     <article className="home-page">
+      <script
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
+        type="application/ld+json"
+      />
       <Breadcrumbs items={[{ label: content.breadcrumb }]} />
 
       <header className="home-hero">

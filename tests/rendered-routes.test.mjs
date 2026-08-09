@@ -26,6 +26,15 @@ async function render(pathname) {
   );
 }
 
+function decodeHtml(value) {
+  return value
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+}
+
 test("redirects the unlocalized root to English", async () => {
   const response = await render("/");
   assert.equal(response.status, 307);
@@ -164,4 +173,130 @@ test("returns 404 for an unknown article slug", async () => {
 test("returns 404 for an unsupported article locale", async () => {
   const response = await render("/zh/classes/best-class");
   assert.equal(response.status, 404);
+});
+
+test("renders all 12 localized launch routes with metadata and structured data", async () => {
+  const pageTypes = new Map([
+    ["", "WebSite"],
+    ["/classes", "CollectionPage"],
+    ["/classes/best-class", "Article"],
+  ]);
+
+  for (const locale of ["en", "ja", "de", "pt-br"]) {
+    for (const [path, schemaType] of pageTypes) {
+      const route = `/${locale}${path}`;
+      const response = await render(route);
+      assert.equal(response.status, 200, route);
+      const html = await response.text();
+
+      const title = decodeHtml(html.match(/<title>([^<]*)<\/title>/i)?.[1] ?? "");
+      const description = decodeHtml(
+        html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i)?.[1] ?? "",
+      );
+      assert.ok(title.length > 0 && title.length <= 60, `${route} title length is ${title.length}`);
+      assert.ok(
+        description.length >= 140 && description.length <= 160,
+        `${route} description length is ${description.length}`,
+      );
+
+      assert.match(
+        html,
+        new RegExp(`<link[^>]+rel=["']canonical["'][^>]+href=["']http://localhost:3000${route}["']`, "i"),
+        `${route} renders its canonical URL`,
+      );
+      for (const hreflang of ["en", "ja", "de", "pt-BR"]) {
+        assert.match(
+          html,
+          new RegExp(`<link[^>]+hreflang=["']${hreflang}["']`, "i"),
+          `${route} renders the ${hreflang} alternate`,
+        );
+      }
+      assert.match(
+        html,
+        /<meta[^>]+property=["']og:image["'][^>]+content=["']http:\/\/localhost:3000\/og\.png["']/i,
+        `${route} renders the OpenGraph preview`,
+      );
+      assert.match(
+        html,
+        /<meta[^>]+name=["']twitter:image["'][^>]+content=["']http:\/\/localhost:3000\/og\.png["']/i,
+        `${route} renders the Twitter preview`,
+      );
+      assert.match(
+        html,
+        new RegExp(`<script[^>]+type=["']application/ld\\+json["'][^>]*>[^<]*["']@type["']:["']${schemaType}["']`, "i"),
+        `${route} renders ${schemaType} JSON-LD`,
+      );
+      if (path) {
+        assert.match(html, /["']@type["']:["']BreadcrumbList["']/, `${route} renders breadcrumbs JSON-LD`);
+      }
+    }
+  }
+});
+
+test("returns a safe home link from global and localized not-found pages", async () => {
+  for (const path of ["/zh", "/en/classes/not-a-guide"]) {
+    const response = await render(path);
+    assert.equal(response.status, 404, `${path} returns 404`);
+    const html = await response.text();
+    assert.match(html, /href=["']\/en["']/, `${path} links safely to English home`);
+  }
+});
+
+test("serves a sitemap containing exactly the 12 launch URLs", async () => {
+  const response = await render("/sitemap.xml");
+  assert.equal(response.status, 200);
+  const xml = await response.text();
+
+  assert.equal((xml.match(/<url>/g) ?? []).length, 12);
+  for (const locale of ["en", "ja", "de", "pt-br"]) {
+    for (const path of ["", "/classes", "/classes/best-class"]) {
+      assert.match(xml, new RegExp(`<loc>http://localhost:3000/${locale}${path}</loc>`));
+    }
+  }
+});
+
+test("allows crawling and advertises the sitemap", async () => {
+  const response = await render("/robots.txt");
+  assert.equal(response.status, 200);
+  const robots = await response.text();
+
+  assert.match(robots, /User-Agent:\s*\*/i);
+  assert.match(robots, /Allow:\s*\//i);
+  assert.match(robots, /Sitemap:\s*http:\/\/localhost:3000\/sitemap\.xml/i);
+});
+
+test("keeps competitor brands and guide domains out of all launch HTML", async () => {
+  const forbiddenText = [
+    /vvultimatum\.net/i,
+    /VV:? ULTIMATUM/i,
+    /fextralife\.com/i,
+    /game8\.co/i,
+    /ign\.com/i,
+    /fandom\.com/i,
+    /wiki\.gg/i,
+  ];
+  const allowedExternalHosts = new Set([
+    "mistfallhunter.com",
+    "store.steampowered.com",
+    "steamcommunity.com",
+  ]);
+
+  for (const locale of ["en", "ja", "de", "pt-br"]) {
+    for (const path of ["", "/classes", "/classes/best-class"]) {
+      const route = `/${locale}${path}`;
+      const response = await render(route);
+      assert.equal(response.status, 200, route);
+      const html = await response.text();
+
+      for (const pattern of forbiddenText) {
+        assert.doesNotMatch(html, pattern, `${route} excludes ${pattern}`);
+      }
+      for (const match of html.matchAll(/href=["'](https?:\/\/[^"']+)["']/gi)) {
+        const host = new URL(match[1]).hostname;
+        if (host !== "localhost") {
+          assert.ok(allowedExternalHosts.has(host), `${route} excludes unapproved external host ${host}`);
+        }
+      }
+    }
+  }
 });
