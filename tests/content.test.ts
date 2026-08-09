@@ -27,6 +27,16 @@ describe("MDX content pipeline", () => {
       .toThrow(/broken\.mdx.*description/i);
   });
 
+  it("rejects an unapproved article source URL", () => {
+    const competitorSource = valid.replace(
+      "https://mistfallhunter.com/",
+      "https://competitor.example/guide",
+    );
+
+    expect(() => parseArticle(competitorSource, "competitor.mdx"))
+      .toThrow(/competitor\.mdx.*sources\.0/i);
+  });
+
   it.each(["en", "ja", "de", "pt-br"] as const)(
     "registers the %s Best Class article",
     (locale) => {

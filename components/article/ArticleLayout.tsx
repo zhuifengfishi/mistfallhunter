@@ -1,8 +1,11 @@
 import type { ReactNode } from "react";
-import { officialLinks } from "../../data/home";
 import type { Dictionary } from "../../i18n/get-dictionary";
 import { localizedPath, type Locale } from "../../i18n/locales";
 import type { ArticleDocument } from "../../lib/content/mdx";
+import {
+  isApprovedOfficialSourceUrl,
+  officialSourceLabel,
+} from "../../lib/content/official-links";
 import { Breadcrumbs } from "../Breadcrumbs";
 
 type ArticleLayoutProps = {
@@ -11,12 +14,6 @@ type ArticleLayoutProps = {
   dictionary: Dictionary;
   locale: Locale;
 };
-
-function sourceLabel(source: string): string {
-  if (source === officialLinks.site) return "Mistfall Hunter";
-  if (source === officialLinks.steam) return "Steam";
-  return source;
-}
 
 export function ArticleLayout({
   article,
@@ -55,11 +52,13 @@ export function ArticleLayout({
         <h2 id="article-sources">{dictionary.article.sources}</h2>
         <div>
           <a href={localizedPath(locale, "/classes")}>{dictionary.classes.overview}</a>
-          {frontmatter.sources.map((source) => (
-            <a href={source} key={source} rel="noopener noreferrer" target="_blank">
-              {sourceLabel(source)}
-            </a>
-          ))}
+          {frontmatter.sources
+            .filter(isApprovedOfficialSourceUrl)
+            .map((source) => (
+              <a href={source} key={source} rel="noopener noreferrer" target="_blank">
+                {officialSourceLabel(source)}
+              </a>
+            ))}
         </div>
       </section>
     </article>

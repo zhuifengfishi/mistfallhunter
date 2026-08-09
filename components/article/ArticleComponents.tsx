@@ -1,10 +1,9 @@
 import type { ComponentPropsWithoutRef } from "react";
-import { officialLinks } from "../../data/home";
 import { localizedPath, type Locale } from "../../i18n/locales";
+import { isApprovedOfficialSourceUrl } from "../../lib/content/official-links";
 
 type AnchorProps = ComponentPropsWithoutRef<"a">;
 
-const approvedExternalLinks = new Set(Object.values(officialLinks));
 const localizedRoute = /^\/(?:en|ja|de|pt-br)(?=\/|$)/;
 
 function resolveInternalHref(locale: Locale, href: string): string {
@@ -21,7 +20,7 @@ function ArticleLink({
   ...props
 }: AnchorProps & { href?: string; locale: Locale }) {
   if (/^https?:\/\//i.test(href)) {
-    if (!approvedExternalLinks.has(href as (typeof officialLinks)[keyof typeof officialLinks])) {
+    if (!isApprovedOfficialSourceUrl(href)) {
       return <span>{children}</span>;
     }
 

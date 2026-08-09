@@ -4,6 +4,7 @@ import * as runtime from "react/jsx-runtime";
 import { z } from "zod";
 import type { Locale } from "../../i18n/locales";
 import { articleSources } from "../../content/registry";
+import { isApprovedOfficialSourceUrl } from "./official-links";
 
 const frontmatterSchema = z.object({
   title: z.string().min(1),
@@ -13,7 +14,11 @@ const frontmatterSchema = z.object({
   order: z.number().int().nonnegative(),
   badge: z.string().min(1),
   image: z.string().startsWith("/"),
-  sources: z.array(z.string().url()).min(1),
+  sources: z.array(
+    z.string().url().refine(isApprovedOfficialSourceUrl, {
+      message: "unapproved official source URL",
+    }),
+  ).min(1),
 });
 
 export type ArticleFrontmatter = z.infer<typeof frontmatterSchema>;

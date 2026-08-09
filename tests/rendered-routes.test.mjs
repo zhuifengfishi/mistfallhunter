@@ -126,12 +126,19 @@ test("renders the English Best Class MDX article", async () => {
 });
 
 test("renders the localized Best Class article route and sidebar state for every locale", async () => {
-  for (const locale of ["en", "ja", "de", "pt-br"]) {
+  const cases = [
+    { locale: "en", marker: /Quick Recommendation/ },
+    { locale: "ja", marker: /\u307e\u305a\u7d50\u8ad6/ },
+    { locale: "de", marker: /Schnelle Empfehlung/ },
+    { locale: "pt-br", marker: /Recomenda\u00e7\u00e3o r\u00e1pida/ },
+  ];
+
+  for (const { locale, marker } of cases) {
     const response = await render(`/${locale}/classes/best-class`);
     assert.equal(response.status, 200, `/${locale}/classes/best-class returns 200`);
     const html = await response.text();
 
-    assert.match(html, /Mistfall Hunter/i, `${locale} renders article content`);
+    assert.match(html, marker, `${locale} renders localized MDX body content`);
     assert.match(
       html,
       new RegExp(
@@ -151,5 +158,10 @@ test("renders the localized Best Class article route and sidebar state for every
 
 test("returns 404 for an unknown article slug", async () => {
   const response = await render("/en/classes/not-a-guide");
+  assert.equal(response.status, 404);
+});
+
+test("returns 404 for an unsupported article locale", async () => {
+  const response = await render("/zh/classes/best-class");
   assert.equal(response.status, 404);
 });
