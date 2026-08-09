@@ -14,7 +14,7 @@ const ctx = {
 };
 
 const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://mistfall-hunter.net"
 ).replace(/\/+$/, "");
 const escapedSiteUrl = siteUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 

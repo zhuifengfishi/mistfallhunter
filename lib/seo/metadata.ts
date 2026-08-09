@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { localizedPath, type Locale } from "../../i18n/locales";
 
-/** Public origin used for canonical URLs. Local development defaults to localhost. */
+/** Public origin used for canonical URLs. */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, "") ||
-  "http://localhost:3000";
+  "https://mistfall-hunter.net";
 
 const hreflangByLocale: Record<Locale, string> = {
   en: "en",
