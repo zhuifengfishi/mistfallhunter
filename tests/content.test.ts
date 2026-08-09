@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getArticle, parseArticle } from "../lib/content/mdx";
+import { getArticle } from "../content/registry";
+import { parseArticle } from "../lib/content/parse-article";
 
 const valid = `---
 title: Best Class

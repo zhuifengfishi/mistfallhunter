@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Dictionary } from "../../i18n/get-dictionary";
 import { localizedPath, type Locale } from "../../i18n/locales";
-import type { ArticleDocument } from "../../lib/content/mdx";
+import type { ArticleDocument } from "../../lib/content/article";
 import {
   isApprovedOfficialSourceUrl,
   officialSourceLabel,

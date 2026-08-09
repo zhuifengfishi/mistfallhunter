@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticleComponents } from "../../../../components/article/ArticleComponents";
 import { ArticleLayout } from "../../../../components/article/ArticleLayout";
-import { ArticleContent } from "../../../../content/registry";
+import { ArticleContent, getArticle } from "../../../../content/registry";
 import { getDictionary } from "../../../../i18n/get-dictionary";
 import { isLocale, localizedPath } from "../../../../i18n/locales";
-import { getArticle } from "../../../../lib/content/mdx";
 import {
   buildPageMetadata,
   pageDescriptions,

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const env = {
@@ -41,6 +41,23 @@ function decodeHtml(value) {
     .replaceAll("&gt;", ">");
 }
 
+async function listJavaScriptFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const url = new URL(entry.name, directory);
+    if (entry.isDirectory()) {
+      url.pathname += "/";
+      files.push(...await listJavaScriptFiles(url));
+    } else if (entry.isFile() && entry.name.endsWith(".js")) {
+      files.push(url);
+    }
+  }
+
+  return files;
+}
+
 test("keeps local preview scripts portable on Windows", async () => {
   const packageJson = JSON.parse(
     await readFile(new URL("../package.json", import.meta.url), "utf8"),
@@ -69,13 +86,28 @@ test("keeps locale menu options at least 44px tall", async () => {
   }
 });
 
-test("keeps request-time article rendering free of dynamic code generation", async () => {
-  const source = await readFile(
-    new URL("../lib/content/mdx.ts", import.meta.url),
-    "utf8",
-  );
+test("keeps every built server JavaScript chunk free of dynamic code generation", async () => {
+  const files = await listJavaScriptFiles(new URL("../dist/server/", import.meta.url));
+  assert.ok(files.length > 0, "the production build emits server JavaScript");
 
-  assert.doesNotMatch(source, /\brun\s*\(/);
+  const forbidden = [
+    ["eval call", /\beval\s*\(/],
+    ["Function constructor", /\bnew\s+Function\s*\(/],
+    ["AsyncFunction constructor", /\bAsyncFunction\b/],
+    ["MDX runtime compiler", /@mdx-js\/mdx|mdx\/lib\/run\.js/],
+  ];
+  const violations = [];
+
+  for (const file of files) {
+    const source = await readFile(file, "utf8");
+    for (const [label, pattern] of forbidden) {
+      if (pattern.test(source)) {
+        violations.push(`${file.pathname}: ${label}`);
+      }
+    }
+  }
+
+  assert.deepEqual(violations, []);
 });
 
 test("redirects the unlocalized root to English", async () => {
