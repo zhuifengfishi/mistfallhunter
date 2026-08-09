@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
+  title: "Mistfall Hunter Community Wiki",
+  description: "Practical Mistfall Hunter guides for every hunt.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
