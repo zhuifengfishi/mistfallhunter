@@ -892,7 +892,9 @@ summary:focus-visible {
 }
 
 .home-facts dt {
-  color: #767168;
+  color: #4b4944;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .home-facts dd {

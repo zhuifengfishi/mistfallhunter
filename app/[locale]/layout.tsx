@@ -1,9 +1,27 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "../../components/SiteFooter";
 import { SiteHeader } from "../../components/navigation/SiteHeader";
 import { WikiSidebar } from "../../components/navigation/WikiSidebar";
 import { getDictionary } from "../../i18n/get-dictionary";
-import { isLocale } from "../../i18n/locales";
+import { isLocale, type Locale } from "../../i18n/locales";
+import "../globals.css";
+
+export const metadata: Metadata = {
+  title: "Mistfall Hunter Community Wiki",
+  description: "Practical Mistfall Hunter guides for every hunt.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
+};
+
+const documentLanguages: Record<Locale, string> = {
+  en: "en",
+  ja: "ja",
+  de: "de",
+  "pt-br": "pt-BR",
+};
 
 type LocalizedLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -21,15 +39,19 @@ export default async function LocalizedLayout({
   const dictionary = getDictionary(locale);
 
   return (
-    <div className="site-shell">
-      <SiteHeader dictionary={dictionary} locale={locale} />
-      <div className="site-frame">
-        <main className="site-main" id="main-content">
-          {children}
-        </main>
-        <WikiSidebar dictionary={dictionary} locale={locale} />
-      </div>
-      <SiteFooter dictionary={dictionary} />
-    </div>
+    <html lang={documentLanguages[locale]}>
+      <body>
+        <div className="site-shell">
+          <SiteHeader dictionary={dictionary} locale={locale} />
+          <div className="site-frame">
+            <main className="site-main" id="main-content">
+              {children}
+            </main>
+            <WikiSidebar dictionary={dictionary} locale={locale} />
+          </div>
+          <SiteFooter dictionary={dictionary} />
+        </div>
+      </body>
+    </html>
   );
 }
