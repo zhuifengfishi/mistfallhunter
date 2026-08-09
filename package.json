@@ -6,9 +6,9 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
+    "dev": "vinext dev",
     "build": "vinext build",
-    "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
+    "start": "vinext start",
     "test": "npm run test:unit && npm run test:render",
     "test:unit": "vitest run",
     "test:render": "npm run build && node --test tests/rendered-routes.test.mjs",
@@ -26,7 +26,9 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
     "@eslint/js": "9.39.4",
+    "@mdx-js/rollup": "^3.1.1",
     "@next/eslint-plugin-next": "16.2.6",
+    "@next/mdx": "^16.2.6",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -40,6 +42,9 @@
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "16.4.0",
     "react-server-dom-webpack": "19.2.6",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx-frontmatter": "^5.2.0",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.3",

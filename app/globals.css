@@ -133,6 +133,7 @@ summary:focus-visible {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
+  min-height: 44px;
   min-width: max-content;
   gap: 9px;
 }
@@ -209,7 +210,7 @@ summary:focus-visible {
 .mobile-navigation summary {
   display: flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -245,7 +246,7 @@ summary:focus-visible {
 }
 
 .locale-switcher__menu a {
-  min-height: 36px;
+  min-height: 44px;
   padding: 9px 10px;
   border-radius: 7px;
   color: var(--muted);
@@ -377,6 +378,14 @@ summary:focus-visible {
 .site-footer__links {
   display: flex;
   gap: 16px;
+}
+
+.site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .site-footer__links a:hover {
@@ -511,6 +520,13 @@ summary:focus-visible {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.breadcrumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .breadcrumbs li + li::before {
@@ -737,6 +753,9 @@ summary:focus-visible {
 }
 
 .home-update a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -926,7 +945,9 @@ summary:focus-visible {
 
 .home-faq summary {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  min-height: 44px;
   gap: 24px;
   cursor: pointer;
   font-family: var(--font-display);
@@ -1538,7 +1559,7 @@ summary:focus-visible {
 .article-layout__sources a {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 14px;
   border: 1px solid var(--border);
   border-radius: 7px;

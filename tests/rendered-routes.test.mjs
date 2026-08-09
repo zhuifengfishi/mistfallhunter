@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const env = {
@@ -34,6 +35,43 @@ function decodeHtml(value) {
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">");
 }
+
+test("keeps local preview scripts portable on Windows", async () => {
+  const packageJson = JSON.parse(
+    await readFile(new URL("../package.json", import.meta.url), "utf8"),
+  );
+
+  assert.equal(packageJson.scripts.dev, "vinext dev");
+  assert.equal(packageJson.scripts.start, "vinext start");
+});
+
+test("keeps locale menu options at least 44px tall", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(
+    css,
+    /\.locale-switcher__menu a\s*{[^}]*min-height:\s*44px;/s,
+  );
+  for (const selector of [
+    ".site-brand",
+    ".breadcrumbs a",
+    ".home-update a",
+    ".home-faq summary",
+    ".site-footer__links a",
+    ".article-layout__sources a",
+  ]) {
+    const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    assert.match(css, new RegExp(`${escaped}\\s*{[^}]*min-height:\\s*44px;`, "s"));
+  }
+});
+
+test("keeps request-time article rendering free of dynamic code generation", async () => {
+  const source = await readFile(
+    new URL("../lib/content/mdx.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.doesNotMatch(source, /\brun\s*\(/);
+});
 
 test("redirects the unlocalized root to English", async () => {
   const response = await render("/");
@@ -129,6 +167,8 @@ test("renders the English Best Class MDX article", async () => {
   assert.match(html, /Last updated/i);
   assert.match(html, /Popular/i);
   assert.match(html, /Advertisement/i);
+  assert.match(html, /class=["']article-table-scroll["']/);
+  assert.match(html, /<table>/);
   const activeBestClassLink =
     /<a aria-current=["']page["'] class=["']wiki-sidebar__item is-active["'] href=["']\/en\/classes\/best-class["']/;
   assert.match(html, activeBestClassLink);

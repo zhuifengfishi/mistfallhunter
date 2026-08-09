@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticleComponents } from "../../../../components/article/ArticleComponents";
 import { ArticleLayout } from "../../../../components/article/ArticleLayout";
+import { ArticleContent } from "../../../../content/registry";
 import { getDictionary } from "../../../../i18n/get-dictionary";
 import { isLocale, localizedPath } from "../../../../i18n/locales";
-import { getArticle, getArticleComponent } from "../../../../lib/content/mdx";
+import { getArticle } from "../../../../lib/content/mdx";
 import {
   buildPageMetadata,
   pageDescriptions,
@@ -39,7 +40,6 @@ export default async function BestClassArticle({ params }: BestClassArticleProps
   if (!isLocale(localeValue) || slug !== "best-class") notFound();
 
   const article = getArticle(localeValue, "classes", "best-class");
-  const Article = await getArticleComponent(article);
   const dictionary = getDictionary(localeValue);
   const homeUrl = new URL(localizedPath(localeValue), `${SITE_URL}/`).toString();
   const classesUrl = new URL(
@@ -101,7 +101,10 @@ export default async function BestClassArticle({ params }: BestClassArticleProps
         type="application/ld+json"
       />
       <ArticleLayout article={article} dictionary={dictionary} locale={localeValue}>
-        <Article components={getArticleComponents({ locale: localeValue })} />
+        <ArticleContent
+          components={getArticleComponents({ locale: localeValue })}
+          locale={localeValue}
+        />
       </ArticleLayout>
     </>
   );
