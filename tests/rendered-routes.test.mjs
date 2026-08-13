@@ -148,6 +148,26 @@ test("renders the English homepage shell and sections", async () => {
   assert.doesNotMatch(html, /VV:? ULTIMATUM/i);
 });
 
+test("renders all six English search guides with canonical content", async () => {
+  const guides = [
+    ["classes-tier-list", "Mistfall Hunter Classes"],
+    ["ciphers", "Mistfall Hunter Ciphers"],
+    ["gyldenmist-matchmaking", "Gyldenmist"],
+    ["patch-notes", "Mistfall Hunter Patch Notes"],
+    ["multiplayer-community", "Mistfall Hunter Multiplayer"],
+    ["beginner-wiki", "Mistfall Hunter Wiki"],
+  ];
+
+  for (const [slug, heading] of guides) {
+    const response = await render(`/en/guides/${slug}`);
+    assert.equal(response.status, 200, `${slug} returns 200`);
+    const html = await response.text();
+    assert.match(html, new RegExp(heading, "i"), `${slug} has unique guide content`);
+    assert.match(html, /FAQPage/, `${slug} includes FAQ structured data`);
+    assert.match(html, /Last reviewed/, `${slug} shows freshness information`);
+  }
+});
+
 test("renders the advertising provider script and slot on article pages", async () => {
   const response = await render("/en/classes/best-class");
   assert.equal(response.status, 200);
@@ -453,16 +473,19 @@ test("renders locale-specific not-found pages for unknown articles", async () =>
   }
 });
 
-test("serves a sitemap containing exactly the 12 launch URLs", async () => {
+test("serves a sitemap containing localized launch URLs and six English guides", async () => {
   const response = await render("/sitemap.xml");
   assert.equal(response.status, 200);
   const xml = await response.text();
 
-  assert.equal((xml.match(/<url>/g) ?? []).length, 12);
+  assert.equal((xml.match(/<url>/g) ?? []).length, 18);
   for (const locale of ["en", "ja", "de", "pt-br"]) {
     for (const path of ["", "/classes", "/classes/best-class"]) {
       assert.match(xml, new RegExp(`<loc>${escapedSiteUrl}/${locale}${path}</loc>`));
     }
+  }
+  for (const slug of ["classes-tier-list", "ciphers", "gyldenmist-matchmaking", "patch-notes", "multiplayer-community", "beginner-wiki"]) {
+    assert.match(xml, new RegExp(`<loc>${escapedSiteUrl}/en/guides/${slug}</loc>`));
   }
 });
 

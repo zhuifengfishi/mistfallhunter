@@ -4,6 +4,7 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { GuideCard } from "../../components/GuideCard";
 import { MediaPanel } from "../../components/MediaPanel";
 import { StatChip } from "../../components/StatChip";
+import { guideSlugs, guides } from "../../data/guides";
 import {
   homeContent,
   type HomeTarget,
@@ -224,6 +225,24 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           ))}
         </div>
       </section>
+
+      {locale === "en" && (
+        <section className="home-section" id="guides">
+          <div className="home-section__heading">
+            <div>
+              <p className="home-kicker">Search guides</p>
+              <h2>Deep guides for your next Mistfall Hunter question.</h2>
+            </div>
+            <p>Original, task-focused guides with update dates, checklists, FAQs, and official-source checks.</p>
+          </div>
+          <div className="home-card-grid">
+            {guideSlugs.map((slug, index) => {
+              const guide = guides[slug];
+              return <GuideCard description={guide.description} eyebrow={guide.eyebrow} href={localizedPath(locale, `/guides/${slug}`)} index={index + 1} key={slug} linkLabel="Read the guide" title={guide.title} />;
+            })}
+          </div>
+        </section>
+      )}
 
       <section className="home-faq">
         <div>

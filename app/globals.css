@@ -1430,6 +1430,32 @@ summary:focus-visible {
   background: color-mix(in srgb, var(--surface-raised) 64%, transparent);
 }
 
+.guide-page { max-width: 1080px; }
+.guide-hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr); gap: 36px; align-items: end; padding: 52px 0 30px; }
+.guide-hero h1 { margin: 10px 0 0; font-size: clamp(44px, 5vw, 72px); line-height: .96; }
+.guide-hero > div > p:not(.home-kicker):not(.guide-review) { margin: 22px 0 0; color: var(--muted); line-height: 1.8; }
+.guide-hero__media { min-height: 300px; border-radius: var(--radius-lg); overflow: hidden; }
+.guide-review { margin: 18px 0 0; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.guide-answer, .guide-checklist, .guide-sources { margin-top: 28px; padding: 28px; border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border)); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--accent) 7%, var(--surface-raised)); }
+.guide-answer p:last-child, .guide-sources > p { margin: 12px 0 0; color: var(--muted); line-height: 1.85; }
+.guide-toc { margin-top: 28px; padding: 22px 26px; border-left: 3px solid var(--accent); background: var(--surface-raised); }
+.guide-toc ol { display: grid; gap: 8px; margin: 14px 0 0; padding-left: 20px; }
+.guide-toc a, .guide-related a, .guide-sources a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.guide-body { max-width: 900px; padding-top: 18px; }
+.guide-body section { margin-top: 56px; }
+.guide-body h2, .guide-checklist h2, .guide-faq h2, .guide-related h2, .guide-sources h2 { margin: 8px 0 0; font-size: clamp(30px, 4vw, 48px); line-height: .98; }
+.guide-body p, .guide-body li, .guide-checklist li { color: var(--muted); font-size: 15px; line-height: 1.9; }
+.guide-body p { margin: 18px 0 0; }
+.guide-body ul, .guide-checklist ol { display: grid; gap: 10px; margin: 20px 0 0; padding-left: 24px; }
+.guide-faq, .guide-related { margin-top: 64px; }
+.guide-faq details { margin-top: 14px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-raised); }
+.guide-faq summary { cursor: pointer; font-weight: 700; }
+.guide-faq p { margin: 12px 0 0; color: var(--muted); line-height: 1.8; }
+.guide-related > div, .guide-sources > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.guide-related a, .guide-sources a { display: flex; min-height: 72px; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 13px; font-weight: 700; text-decoration: none; }
+.guide-related a:hover, .guide-sources a:hover { border-color: var(--accent); }
+@media (max-width: 760px) { .guide-hero { grid-template-columns: 1fr; gap: 22px; padding-top: 34px; } .guide-hero__media { min-height: 220px; } .guide-related > div, .guide-sources > div { grid-template-columns: 1fr; } .guide-answer, .guide-checklist, .guide-sources { padding: 22px; } }
+
 .article-layout__content {
   max-width: 900px;
   padding-top: 52px;

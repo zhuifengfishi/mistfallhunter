@@ -6,6 +6,7 @@ import {
   buildPageMetadata,
   serializeJsonLd,
 } from "../lib/seo/metadata";
+import { guides } from "../data/guides";
 
 describe("localized SEO metadata", () => {
   it("builds a localized canonical and exactly four hreflang alternates", () => {
@@ -73,6 +74,25 @@ describe("localized SEO metadata", () => {
         imageAlt: "Mistfall Hunter field guide social preview",
       }),
     ).toThrow(/description/i);
+  });
+
+  it("keeps every guide's metadata within the shared character limits", () => {
+    for (const guide of Object.values(guides)) {
+      expect(guide.metadataTitle.length, guide.slug).toBeLessThanOrEqual(60);
+      expect(guide.description.length, `${guide.slug} description`).toBeGreaterThanOrEqual(140);
+      expect(guide.description.length, `${guide.slug} description`).toBeLessThanOrEqual(160);
+      expect(() =>
+        buildPageMetadata({
+          locale: "en",
+          path: `/guides/${guide.slug}`,
+          title: guide.metadataTitle,
+          description: guide.description,
+          image: guide.image,
+          imageAlt: guide.imageAlt,
+          type: "article",
+        }),
+      ).not.toThrow();
+    }
   });
 
   it("serializes JSON-LD without a literal less-than character", () => {
