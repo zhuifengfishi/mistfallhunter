@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AdvertisementScript } from "../../components/Advertisement";
 import { GoogleAnalytics } from "../../components/GoogleAnalytics";
 import { SiteFooter } from "../../components/SiteFooter";
 import { SiteHeader } from "../../components/navigation/SiteHeader";
@@ -43,6 +44,7 @@ export default async function LocalizedLayout({
     <html lang={documentLanguages[locale]}>
       <head>
         <GoogleAnalytics />
+        <AdvertisementScript />
       </head>
       <body>
         <div className="site-shell">

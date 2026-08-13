@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AdvertisementSlot } from "../Advertisement";
 import type { Dictionary } from "../../i18n/get-dictionary";
 import { localizedPath, type Locale } from "../../i18n/locales";
 import type { ArticleDocument } from "../../lib/content/article";
@@ -43,7 +44,9 @@ export function ArticleLayout({
         </p>
       </header>
 
-      <aside aria-label="Advertisement" className="article-layout__ad" />
+      <aside aria-label="Advertisement" className="article-layout__ad">
+        <AdvertisementSlot />
+      </aside>
 
       <div className="article-layout__content">{children}</div>
 

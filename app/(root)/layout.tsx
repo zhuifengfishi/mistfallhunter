@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AdvertisementScript } from "../../components/Advertisement";
 import { GoogleAnalytics } from "../../components/GoogleAnalytics";
 import "../globals.css";
 
@@ -18,6 +19,7 @@ export default function RedirectRootLayout({
     <html lang="en">
       <head>
         <GoogleAnalytics />
+        <AdvertisementScript />
       </head>
       <body>{children}</body>
     </html>

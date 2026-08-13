@@ -148,6 +148,21 @@ test("renders the English homepage shell and sections", async () => {
   assert.doesNotMatch(html, /VV:? ULTIMATUM/i);
 });
 
+test("renders the advertising provider script and slot on article pages", async () => {
+  const response = await render("/en/classes/best-class");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+
+  assert.match(
+    html,
+    /effectivecpmnetwork\.com\/ceb9497315da621e307643d9a8ae153f\/invoke\.js/,
+  );
+  assert.match(
+    html,
+    /id=["']container-ceb9497315da621e307643d9a8ae153f["']/,
+  );
+});
+
 test("renders future navigation groups as labels and links only real destinations", async () => {
   const response = await render("/en");
   assert.equal(response.status, 200);
