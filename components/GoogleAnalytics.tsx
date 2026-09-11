@@ -1,4 +1,4 @@
-const measurementId = "G-H07TTQ3KK1";
+const measurementId = "G-G82VKPX1G8";
 
 export function GoogleAnalytics() {
   return (
