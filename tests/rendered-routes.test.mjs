@@ -385,7 +385,7 @@ test("loads Google Analytics exactly once across every rendered site page", asyn
     `/${locale}/classes/best-class`,
   ]);
   const renderedRoutes = [...launchRoutes, "/__global-not-found__/missing"];
-  const loader = "https://www.googletagmanager.com/gtag/js?id=G-H07TTQ3KK1";
+  const loader = "https://www.googletagmanager.com/gtag/js?id=G-G82VKPX1G8";
 
   for (const route of renderedRoutes) {
     const response = await render(route);
@@ -412,7 +412,7 @@ test("loads Google Analytics exactly once across every rendered site page", asyn
     );
     assert.match(
       bootstrapScripts[0][2],
-      /gtag\(\s*["']config["']\s*,\s*["']G-H07TTQ3KK1["']\s*\)/,
+      /gtag\(\s*["']config["']\s*,\s*["']G-G82VKPX1G8["']\s*\)/,
       `${route} configures the requested GA4 measurement ID`,
     );
     assert.match(bootstrapScripts[0][2], /window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/);

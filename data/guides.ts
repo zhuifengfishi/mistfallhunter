@@ -52,7 +52,7 @@ export const guides: Record<GuideSlug, Guide> = {
       { question: "What is the best class for PvP?", answer: "PvP success depends on map geometry, timing, and coordination. Use a current-patch tier list as a discussion tool, then test whether the class supports your team role." },
       { question: "Should I reroll when a class is nerfed?", answer: "First read the official patch notes and identify the exact affected interaction. A balance change may alter one build rather than invalidate the whole class." },
     ],
-    related: ["patch-notes", "beginner-wiki", "multiplayer-community"],
+    related: ["gyldenmist-matchmaking", "beginner-wiki", "patch-notes"],
   },
   ciphers: {
     slug: "ciphers",
@@ -75,7 +75,7 @@ export const guides: Record<GuideSlug, Guide> = {
       { question: "Why did a cipher code not work?", answer: "It may be expired, region- or mode-specific, incomplete, or entered in the wrong location. Recheck the original source and date before trying variants." },
       { question: "Are community cipher lists safe to use?", answer: "They are useful leads, not final authority. Avoid downloads, login prompts, or links that claim you must install software to redeem a code." },
     ],
-    related: ["patch-notes", "beginner-wiki", "multiplayer-community"],
+    related: ["gyldenmist-matchmaking", "beginner-wiki", "patch-notes"],
   },
   "gyldenmist-matchmaking": {
     slug: "gyldenmist-matchmaking",
@@ -144,7 +144,7 @@ export const guides: Record<GuideSlug, Guide> = {
       { question: "How do I find a Mistfall Hunter guild?", answer: "Use established community spaces, review their rules, and start with low-risk sessions. A good group communicates objectives and respects new-player learning time." },
       { question: "Are Mistfall Hunter mods safe?", answer: "Safety and rule compliance depend on the specific tool. Verify the source, read current game rules, and avoid anything that requests credentials or gives an unfair gameplay advantage." },
     ],
-    related: ["beginner-wiki", "patch-notes", "classes-tier-list"],
+    related: ["beginner-wiki", "gyldenmist-matchmaking", "classes-tier-list"],
   },
   "beginner-wiki": {
     slug: "beginner-wiki",

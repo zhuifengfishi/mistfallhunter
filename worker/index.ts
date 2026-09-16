@@ -28,6 +28,15 @@ interface ExecutionContext {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+    const forwardedProto = request.headers.get("x-forwarded-proto");
+    const isLocalHost =
+      url.hostname === "localhost" ||
+      url.hostname === "127.0.0.1" ||
+      url.hostname.endsWith(".localhost");
+    if (forwardedProto === "http" && !isLocalHost) {
+      url.protocol = "https:";
+      return Response.redirect(url.toString(), 301);
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

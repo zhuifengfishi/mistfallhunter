@@ -70,10 +70,12 @@ export const ja = {
     related: "関連ガイド",
   },
   footer: {
-    disclaimer: "Mistfall Hunter Community Wiki は非公式のファンサイトであり、Bellring Games とは提携、承認、後援の関係にありません。",
+    disclaimer: "Mistfall Hunter Wiki は非公式のファンサイトであり、Bellring Games とは提携、承認、後援の関係にありません。",
     officialSite: "公式サイト",
     steam: "Steam",
-    copyright: "Mistfall Hunter Community Wiki",
+    privacy: "プライバシー",
+    contact: "お問い合わせ",
+    copyright: "Mistfall Hunter Wiki",
   },
   errors: {
     notFoundTitle: "ページが見つかりません",

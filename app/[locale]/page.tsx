@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { GuideCard } from "../../components/GuideCard";
 import { MediaPanel } from "../../components/MediaPanel";
+import { NextReads } from "../../components/NextReads";
 import { StatChip } from "../../components/StatChip";
 import { guideSlugs, guides } from "../../data/guides";
 import {
@@ -30,10 +31,14 @@ export async function generateMetadata({
   if (!isLocale(localeValue)) notFound();
 
   const dictionary = getDictionary(localeValue);
+  const title =
+    localeValue === "en"
+      ? "Mistfall Hunter Wiki"
+      : `${dictionary.brand.name} ${dictionary.brand.wiki}`;
   return buildPageMetadata({
     locale: localeValue,
     path: "/",
-    title: `${dictionary.brand.name} ${dictionary.brand.wiki}`,
+    title,
     description: pageDescriptions[localeValue].home,
     image: "/og.png",
     imageAlt: "Mistfall Hunter field guide social preview",
@@ -63,10 +68,14 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
   const content = homeContent[locale];
   const dictionary = getDictionary(locale);
   const homeUrl = new URL(localizedPath(locale), `${SITE_URL}/`).toString();
+  const websiteName =
+    locale === "en"
+      ? "Mistfall Hunter Wiki"
+      : `${dictionary.brand.name} ${dictionary.brand.wiki}`;
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: `${dictionary.brand.name} ${dictionary.brand.wiki}`,
+    name: websiteName,
     description: pageDescriptions[locale].home,
     url: homeUrl,
     inLanguage: locale === "pt-br" ? "pt-BR" : locale,
@@ -242,6 +251,39 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
             })}
           </div>
         </section>
+      )}
+
+      {locale === "en" && (
+        <NextReads
+          className="home-next-reads"
+          intro="Related Mistfall Hunter Wiki guides — keep reading on-site to plan your next hunt."
+          links={[
+            {
+              href: localizedPath(locale, "/guides/gyldenmist-matchmaking"),
+              label: "Gyldenmist & matchmaking guide",
+            },
+            {
+              href: localizedPath(locale, "/classes/best-class"),
+              label: "Best Class guide",
+            },
+            {
+              href: localizedPath(locale, "/guides/beginner-wiki"),
+              label: "Beginner Mistfall Hunter Wiki",
+            },
+            {
+              href: localizedPath(locale, "/guides/classes-tier-list"),
+              label: "Classes & tier list",
+            },
+            {
+              href: localizedPath(locale, "/guides/patch-notes"),
+              label: "Patch notes guide",
+            },
+            {
+              href: localizedPath(locale, "/guides/ciphers"),
+              label: "Ciphers guide",
+            },
+          ]}
+        />
       )}
 
       <section className="home-faq">

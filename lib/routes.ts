@@ -3,7 +3,7 @@ import { localizedPath } from "../i18n/locales";
 
 import { guideSlugs } from "../data/guides";
 
-export const launchPaths = ["/", "/classes", "/classes/best-class"] as const;
+export const launchPaths = ["/", "/classes", "/classes/best-class", "/privacy", "/contact"] as const;
 
 export function launchRoutes(locale: Locale): string[] {
   const routes = launchPaths.map((path) => localizedPath(locale, path));
