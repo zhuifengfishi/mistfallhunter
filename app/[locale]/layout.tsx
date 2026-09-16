@@ -10,8 +10,8 @@ import { isLocale, type Locale } from "../../i18n/locales";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Mistfall Hunter Community Wiki",
-  description: "Practical Mistfall Hunter guides for every hunt.",
+  title: "Mistfall Hunter Wiki",
+  description: "Mistfall Hunter Wiki with practical class, hunt, and extraction guides.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -55,7 +55,7 @@ export default async function LocalizedLayout({
             </main>
             <WikiSidebar dictionary={dictionary} locale={locale} />
           </div>
-          <SiteFooter dictionary={dictionary} />
+          <SiteFooter dictionary={dictionary} locale={locale} />
         </div>
       </body>
     </html>

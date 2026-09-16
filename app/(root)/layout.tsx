@@ -4,8 +4,8 @@ import { GoogleAnalytics } from "../../components/GoogleAnalytics";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Mistfall Hunter Community Wiki",
-  description: "Practical Mistfall Hunter guides for every hunt.",
+  title: "Mistfall Hunter Wiki",
+  description: "Mistfall Hunter Wiki with practical class, hunt, and extraction guides.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

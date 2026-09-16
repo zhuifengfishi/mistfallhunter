@@ -38,3 +38,18 @@ describe("wiki navigation", () => {
     ]);
   });
 });
+
+describe("launch routes", () => {
+  it("includes privacy and contact for every locale", async () => {
+    const { launchRoutes } = await import("../lib/routes");
+    expect(launchRoutes("en")).toEqual(expect.arrayContaining([
+      "/en/privacy",
+      "/en/contact",
+      "/en/guides/gyldenmist-matchmaking",
+    ]));
+    expect(launchRoutes("ja")).toEqual(expect.arrayContaining([
+      "/ja/privacy",
+      "/ja/contact",
+    ]));
+  });
+});

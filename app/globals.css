@@ -1631,3 +1631,100 @@ summary:focus-visible {
     margin-top: 52px;
   }
 }
+
+
+/* Next reads / legal pages (SEO dwell optimization) */
+.next-reads {
+  margin-top: 64px;
+}
+
+.next-reads h2 {
+  margin: 8px 0 0;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 0.98;
+}
+
+.next-reads > p {
+  margin-top: 12px;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.next-reads__links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.next-reads__links a {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.next-reads__links a:hover {
+  border-color: var(--accent);
+}
+
+.next-reads__links a span {
+  color: var(--accent);
+}
+
+.home-next-reads {
+  margin-top: 48px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+}
+
+.legal-page {
+  display: grid;
+  gap: 28px;
+  padding-bottom: 72px;
+}
+
+.legal-page__header h1 {
+  margin: 8px 0 0;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 0.96;
+}
+
+.legal-page__header p,
+.legal-page section p,
+.legal-page__note {
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+.legal-page section h2 {
+  margin: 0 0 12px;
+  font-size: clamp(24px, 3vw, 36px);
+}
+
+.legal-page ul {
+  margin: 12px 0 0;
+  padding-left: 1.2em;
+  color: var(--muted);
+}
+
+.legal-page a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .next-reads__links {
+    grid-template-columns: 1fr;
+  }
+}

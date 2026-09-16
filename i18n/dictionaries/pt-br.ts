@@ -70,10 +70,12 @@ export const ptBr = {
     related: "Leitura relacionada",
   },
   footer: {
-    disclaimer: "Mistfall Hunter Community Wiki é um site de fãs não oficial e não é afiliado, endossado ou patrocinado pela Bellring Games.",
+    disclaimer: "Mistfall Hunter Wiki é um site de fãs não oficial e não é afiliado, endossado ou patrocinado pela Bellring Games.",
     officialSite: "Site oficial",
     steam: "Steam",
-    copyright: "Mistfall Hunter Community Wiki",
+    privacy: "Privacidade",
+    contact: "Contato",
+    copyright: "Mistfall Hunter Wiki",
   },
   errors: {
     notFoundTitle: "Página não encontrada",

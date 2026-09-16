@@ -111,3 +111,31 @@ describe("localized SEO metadata", () => {
     expect(statSync(assetPath).size).toBeGreaterThan(0);
   });
 });
+
+describe("privacy and contact SEO pages", () => {
+  it("keeps legal page descriptions within shared limits for every locale", async () => {
+    const { pageDescriptions, buildPageMetadata } = await import("../lib/seo/metadata");
+    const { legalPages } = await import("../data/legal");
+    const { locales } = await import("../i18n/locales");
+
+    for (const locale of locales) {
+      for (const slug of ["privacy", "contact"] as const) {
+        const copy = legalPages[locale][slug];
+        const description = pageDescriptions[locale][slug];
+        expect(copy.metadataTitle.length, `${locale} ${slug} title`).toBeLessThanOrEqual(60);
+        expect(description.length, `${locale} ${slug} description`).toBeGreaterThanOrEqual(140);
+        expect(description.length, `${locale} ${slug} description`).toBeLessThanOrEqual(160);
+        expect(() =>
+          buildPageMetadata({
+            locale,
+            path: `/${slug}`,
+            title: copy.metadataTitle,
+            description,
+            image: "/og.png",
+            imageAlt: "Mistfall Hunter field guide social preview",
+          }),
+        ).not.toThrow();
+      }
+    }
+  });
+});

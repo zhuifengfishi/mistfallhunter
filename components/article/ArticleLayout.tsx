@@ -8,6 +8,7 @@ import {
   officialSourceLabel,
 } from "../../lib/content/official-links";
 import { Breadcrumbs } from "../Breadcrumbs";
+import { NextReads } from "../NextReads";
 
 type ArticleLayoutProps = {
   article: ArticleDocument;
@@ -49,6 +50,46 @@ export function ArticleLayout({
       </aside>
 
       <div className="article-layout__content">{children}</div>
+
+      <NextReads
+        className="article-layout__next-reads"
+        intro="Related Mistfall Hunter Wiki guides — continue planning your next hunt."
+        links={
+          locale === "en"
+            ? [
+                {
+                  href: localizedPath(locale, "/guides/gyldenmist-matchmaking"),
+                  label: "Gyldenmist & matchmaking",
+                },
+                {
+                  href: localizedPath(locale, "/guides/classes-tier-list"),
+                  label: "Classes & tier list",
+                },
+                {
+                  href: localizedPath(locale, "/guides/beginner-wiki"),
+                  label: "Beginner wiki guide",
+                },
+                {
+                  href: localizedPath(locale, "/classes"),
+                  label: dictionary.classes.overview,
+                },
+              ]
+            : [
+                {
+                  href: localizedPath(locale, "/classes"),
+                  label: dictionary.classes.overview,
+                },
+                {
+                  href: localizedPath(locale),
+                  label: dictionary.nav.home,
+                },
+                {
+                  href: localizedPath("en", "/guides/gyldenmist-matchmaking"),
+                  label: "Gyldenmist & matchmaking (EN)",
+                },
+              ]
+        }
+      />
 
       <section aria-labelledby="article-sources" className="article-layout__sources">
         <p className="home-kicker">{dictionary.article.related}</p>

@@ -1,7 +1,7 @@
 export const en = {
   brand: {
     name: "Mistfall Hunter",
-    wiki: "Community Wiki",
+    wiki: "Wiki",
     tagline: "Practical guides for the hunt.",
   },
   nav: {
@@ -70,10 +70,12 @@ export const en = {
   },
   footer: {
     disclaimer:
-      "Mistfall Hunter Community Wiki is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Bellring Games.",
+      "Mistfall Hunter Wiki is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Bellring Games.",
     officialSite: "Official website",
     steam: "Steam",
-    copyright: "Mistfall Hunter Community Wiki",
+    privacy: "Privacy",
+    contact: "Contact",
+    copyright: "Mistfall Hunter Wiki",
   },
   errors: {
     notFoundTitle: "Page not found",

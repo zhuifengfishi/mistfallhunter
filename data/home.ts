@@ -85,9 +85,9 @@ export const homeContent: Record<Locale, HomeContent> = {
   en: {
     breadcrumb: "Home",
     badge: "Fan-made community wiki",
-    title: "MISTFALL HUNTER",
+    title: "Mistfall Hunter Wiki",
     lead:
-      "Practical class comparisons, hunt fundamentals, and extraction knowledge for every trip into the Gyldenmist.",
+      "Mistfall Hunter Wiki — Practical class comparisons, hunt fundamentals, and extraction knowledge for every trip into the Gyldenmist.",
     heroAlt:
       "A hunter approaching a colossal corrupted tree in Mistfall Hunter",
     statsLabel: "Mistfall Hunter snapshot",

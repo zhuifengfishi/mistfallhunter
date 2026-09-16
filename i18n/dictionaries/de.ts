@@ -70,10 +70,12 @@ export const de = {
     related: "Weiterlesen",
   },
   footer: {
-    disclaimer: "Das Mistfall Hunter Community Wiki ist eine inoffizielle Fanseite und steht in keiner Verbindung zu Bellring Games und wird nicht von ihnen unterstützt oder gesponsert.",
+    disclaimer: "Das Mistfall Hunter Wiki ist eine inoffizielle Fanseite und steht in keiner Verbindung zu Bellring Games und wird nicht von ihnen unterstützt oder gesponsert.",
     officialSite: "Offizielle Website",
     steam: "Steam",
-    copyright: "Mistfall Hunter Community Wiki",
+    privacy: "Datenschutz",
+    contact: "Kontakt",
+    copyright: "Mistfall Hunter Wiki",
   },
   errors: {
     notFoundTitle: "Seite nicht gefunden",
