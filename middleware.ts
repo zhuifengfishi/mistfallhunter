@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { prefersMarkdown, estimateTokens } from "@/lib/agent/accept";
 import { pageMarkdown } from "@/lib/agent/markdown-pages";
 import { AGENT_LINK_HEADER } from "@/lib/agent/site";
+import { rewriteWellKnownRequestPath } from "@/lib/agent/well-known-path";
 
 export function middleware(req: NextRequest) {
   // vinext rejects App Router segments that start with "."; public agents
-  // still expect RFC 8615 /.well-known/* paths.
-  if (
-    req.nextUrl.pathname === "/.well-known" ||
-    req.nextUrl.pathname.startsWith("/.well-known/")
-  ) {
+  // still expect RFC 8615 /.well-known/* paths. Also strip locale prefix/suffix
+  // so OAuth PRM discovery for resource …/en still resolves.
+  const wellKnownTarget = rewriteWellKnownRequestPath(req.nextUrl.pathname);
+  if (wellKnownTarget) {
     const url = req.nextUrl.clone();
-    url.pathname = req.nextUrl.pathname.replace("/.well-known", "/well-known");
+    url.pathname = wellKnownTarget;
     return NextResponse.rewrite(url);
   }
 

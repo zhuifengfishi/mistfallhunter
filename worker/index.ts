@@ -4,6 +4,7 @@ import handler from "vinext/server/app-router-entry";
 import { prefersMarkdown, estimateTokens } from "../lib/agent/accept";
 import { pageMarkdown } from "../lib/agent/markdown-pages";
 import { AGENT_LINK_HEADER } from "../lib/agent/site";
+import { rewriteWellKnownRequestPath } from "../lib/agent/well-known-path";
 
 interface Env {
   ASSETS: Fetcher;
@@ -58,10 +59,12 @@ const worker = {
     }
 
     // vinext forbids App Router segments starting with "."; map the public
-    // /.well-known/* URLs onto /well-known/* route handlers.
-    if (url.pathname === "/.well-known" || url.pathname.startsWith("/.well-known/")) {
+    // /.well-known/* URLs onto /well-known/* route handlers. Also strip a
+    // locale prefix/suffix so PRM discovery for resource …/en still works.
+    const wellKnownTarget = rewriteWellKnownRequestPath(url.pathname);
+    if (wellKnownTarget) {
       const rewritten = new URL(req.url);
-      rewritten.pathname = url.pathname.replace("/.well-known", "/well-known");
+      rewritten.pathname = wellKnownTarget;
       req = new Request(rewritten, req);
       url = rewritten;
     }
