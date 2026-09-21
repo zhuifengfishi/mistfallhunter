@@ -10,6 +10,13 @@ const withMDX = createMDX({
   },
 });
 
+const AGENT_LINK = [
+  '</.well-known/api-catalog>; rel="api-catalog"',
+  '</openapi.json>; rel="service-desc"; type="application/json"',
+  '</llms.txt>; rel="service-doc"; type="text/plain"',
+  '</.well-known/ai-catalog.json>; rel="describedby"; type="application/json"',
+].join(", ");
+
 const nextConfig: NextConfig = {
   // App-level HTTPS enforcement also lives in worker/index.ts (x-forwarded-proto).
   // Cloudflare: enable Always Use HTTPS + www CNAME → Pages (see PR notes).
@@ -21,6 +28,10 @@ const nextConfig: NextConfig = {
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
+          },
+          {
+            key: "Link",
+            value: AGENT_LINK,
           },
         ],
       },

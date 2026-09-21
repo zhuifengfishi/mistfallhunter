@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "../../components/GoogleAnalytics";
 import { SiteFooter } from "../../components/SiteFooter";
 import { SiteHeader } from "../../components/navigation/SiteHeader";
 import { WikiSidebar } from "../../components/navigation/WikiSidebar";
+import WebMcp from "../../components/WebMcp";
 import { getDictionary } from "../../i18n/get-dictionary";
 import { isLocale, type Locale } from "../../i18n/locales";
 import "../globals.css";
@@ -47,6 +48,7 @@ export default async function LocalizedLayout({
         <AdvertisementScript />
       </head>
       <body>
+        <WebMcp />
         <div className="site-shell">
           <SiteHeader dictionary={dictionary} locale={locale} />
           <div className="site-frame">
