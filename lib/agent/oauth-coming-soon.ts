@@ -41,7 +41,7 @@ export const PRM_METADATA = {
   message:
     "Coming soon. Public lookups remain available without authentication.",
   launch_date: null,
-  resource: ORIGIN,
+  resource: `${ORIGIN}/en`,
   planned_resource_endpoint: `${ORIGIN}/agent-auth/resource`,
   authorization_servers: [ORIGIN],
   scopes_supported: ["site:read"],
