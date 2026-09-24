@@ -58,9 +58,9 @@ export const navigationGroups = [
   },
   {
     id: "updates",
-    count: 0,
-    items: [],
-    destination: { kind: "anchor", id: "updates" },
+    count: 6,
+    items: ["news-hub"],
+    destination: { kind: "route", path: "/news" },
     primary: true,
   },
 ] as const;

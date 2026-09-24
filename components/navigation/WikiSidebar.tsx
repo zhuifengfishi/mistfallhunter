@@ -32,6 +32,7 @@ function itemLabel(dictionary: Dictionary, item: string): string {
   if (item === "home") return dictionary.nav.home;
   if (item === "overview") return dictionary.nav.overview;
   if (item === "best-class") return dictionary.nav.bestClass;
+  if (item === "news-hub") return dictionary.nav.updates;
   return item;
 }
 

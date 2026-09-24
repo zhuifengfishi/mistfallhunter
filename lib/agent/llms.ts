@@ -1,5 +1,6 @@
 import { classes } from "../../data/classes";
 import { guideSlugs, getGuide } from "../../data/guides";
+import { newsSlugs, getNews } from "../../data/news";
 import { ORIGIN, SITE_NAME, SITE_TAGLINE } from "./site";
 
 const CLASS_NAMES: Record<string, string> = {
@@ -31,6 +32,7 @@ export function buildLlmsTxt(): string {
     `- [Home (EN)](${ORIGIN}/en): Wiki overview and start-here hub`,
     `- [Classes](${ORIGIN}/en/classes): Six-class overview`,
     `- [Best class article](${ORIGIN}/en/classes/best-class): Beginner / solo / PvE / PvP comparison`,
+    `- [News hub](${ORIGIN}/en/news): Dated Steam-backed updates and post-patch guides`,
     `- [Contact](${ORIGIN}/en/contact): Corrections and feedback`,
     `- [Privacy](${ORIGIN}/en/privacy): Privacy policy`,
     "",
@@ -40,6 +42,13 @@ export function buildLlmsTxt(): string {
       (c) =>
         `- [${CLASS_NAMES[c.id] || c.id}](${ORIGIN}/en/classes): ${c.id} (${c.roleKey})`,
     ),
+    "",
+    "## News",
+    "",
+    ...newsSlugs.map((slug) => {
+      const n = getNews(slug)!;
+      return `- [${n.metadataTitle}](${ORIGIN}/en/news/${n.slug}): ${n.description}`;
+    }),
     "",
     "## Guides",
     "",
